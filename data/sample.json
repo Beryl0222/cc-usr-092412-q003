@@ -1,0 +1,9 @@
+{
+  "event_id": "sample-019-001",
+  "event_type": "CATALOG_DRAFTED",
+  "aggregate_type": "national_item",
+  "aggregate_id": "medical_catalog_mapping-001",
+  "occurred_at": "2026-09-20T18:00:00+08:00",
+  "version": 1,
+  "summary": "登记医保服务目录映射台的首条领域记录"
+}
