@@ -23,7 +23,20 @@
         "MAPPING_PROPOSED",
         "MAPPING_APPROVED",
         "VERSION_ACTIVATED",
-        "CLAIM_ADJUSTED"
+        "CLAIM_ADJUSTED",
+        "DIMENSION_VERSION_REGISTERED",
+        "MAPPING_CANDIDATE_PROPOSED",
+        "MAPPING_CANDIDATE_SIGNED",
+        "MAPPING_DECISION_EFFECTIVE",
+        "MAPPING_DECISION_CLOSED",
+        "MAPPING_DECISION_DEACTIVATED",
+        "MAPPING_DISPUTE_RAISED",
+        "MAPPING_DISPUTE_RESOLVED",
+        "CLAIM_SETTLED",
+        "CLAIM_PENDING",
+        "DIFFERENCE_RAISED",
+        "DIFFERENCE_REVIEWED",
+        "BATCH_IMPORT_COMPLETED"
       ]
     },
     "aggregate_type": {
@@ -32,7 +45,10 @@
         "national_item",
         "provincial_item",
         "mapping_decision",
-        "claim_line"
+        "claim_line",
+        "catalog_dimension",
+        "mapping_candidate",
+        "settlement_batch"
       ]
     },
     "aggregate_id": {
