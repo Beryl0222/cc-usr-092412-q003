@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "医保服务目录映射台领域事件",
+  "description": "五个裁决维度（医院编码、国家目录项、地方限定、计价单位、适用人群）各自独立版本化；机器相似度只产生候选；编码专家与支付政策人员按职责签署后形成带生效区间的映射。事件仅追加，标识、发生时间与版本不得原地改写，更正以后继事件表达。",
   "type": "object",
   "required": [
     "event_id",
@@ -19,19 +20,39 @@
     "event_type": {
       "type": "string",
       "enum": [
-        "CATALOG_DRAFTED",
+        "DIMENSION_VERSION_DRAFTED",
+        "DIMENSION_VERSION_PUBLISHED",
+        "DIMENSION_VERSION_RETIRED",
+        "CANDIDATE_SUGGESTED",
         "MAPPING_PROPOSED",
-        "MAPPING_APPROVED",
+        "MAPPING_SIGNED",
+        "MAPPING_ACTIVATED",
+        "MAPPING_CONFLICT_FLAGGED",
+        "MAPPING_DISPUTE_OPENED",
+        "MAPPING_HALTED",
+        "MAPPING_SUPERSEDED",
+        "MAPPING_CORRECTED",
+        "BATCH_IMPORTED",
+        "BATCH_LINE_ACCEPTED",
+        "BATCH_LINE_REJECTED",
+        "CLAIM_SUBMITTED",
+        "CLAIM_PENDING_REVIEW",
+        "CLAIM_BLOCKED",
+        "CLAIM_ADJUSTED",
         "VERSION_ACTIVATED",
-        "CLAIM_ADJUSTED"
+        "CATALOG_DRAFTED"
       ]
     },
     "aggregate_type": {
       "type": "string",
       "enum": [
+        "hospital_code",
         "national_item",
         "provincial_item",
+        "pricing_unit",
+        "eligible_population",
         "mapping_decision",
+        "import_batch",
         "claim_line"
       ]
     },
@@ -47,9 +68,63 @@
       "type": "integer",
       "minimum": 1
     },
+    "causation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
     "summary": {
       "type": "string",
       "minLength": 1
+    },
+    "payload": {
+      "type": "object"
+    }
+  },
+  "$defs": {
+    "dimension": {
+      "type": "string",
+      "description": "五个独立版本化的裁决维度",
+      "enum": [
+        "hospital_code",
+        "national_item",
+        "local_restriction",
+        "pricing_unit",
+        "eligible_population"
+      ]
+    },
+    "sign_role": {
+      "type": "string",
+      "description": "签署职责：编码专家对编码/临床语义负责，支付政策人员对支付限定与适用范围负责；两者缺一不可。",
+      "enum": [
+        "coding_expert",
+        "payment_policy"
+      ]
+    },
+    "effective_interval": {
+      "type": "object",
+      "description": "映射生效区间，[effective_from, effective_to)，effective_to 为 null 表示至今。",
+      "required": ["effective_from"],
+      "properties": {
+        "effective_from": { "type": "string", "format": "date" },
+        "effective_to": { "type": ["string", "null"], "format": "date" }
+      }
+    },
+    "pending_reason": {
+      "type": "string",
+      "enum": [
+        "NO_DECISION",
+        "MULTIPLE_ACTIVE_DECISIONS",
+        "DIMENSION_AMBIGUOUS",
+        "MISSING_REQUIRED_SIGNATURE",
+        "OUTSIDE_EFFECTIVE_INTERVAL",
+        "DISPUTE_OPEN",
+        "UNDER_HALT",
+        "IMPORT_LINE_INVALID"
+      ]
     }
   },
   "additionalProperties": true
